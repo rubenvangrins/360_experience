@@ -1,0 +1,42 @@
+{
+    "stages": [
+        {
+            "name": "courtyard",
+            "outerImage": "../../src/assets/img/beerze.jpg",
+            "videos": [
+                {
+                    "name": "jasperIvo",
+                    "url": "../../src/assets/video/jasper_ivo.mp4",
+                    "x": 2077,
+                    "y": 1027,
+                    "width": 174,
+                    "height": 200
+                },
+                {
+                    "name": "djBooth",
+                    "url": "../../src/assets/video/dj.mp4",
+                    "x": 3274,
+                    "y": 947.5,
+                    "width": 170,
+                    "height": 300
+                },
+                {
+                    "name": "tableSmall",
+                    "url": "../../src/assets/video/borrel_tafel_small.mp4",
+                    "x": 3489,
+                    "y": 984,
+                    "width": 408,
+                    "height": 900
+                },
+                {
+                    "name": "tableBig",
+                    "url": "../../src/assets/video/borrel_tafel_big.mp4",
+                    "x": 0,
+                    "y": 984,
+                    "width": 936,
+                    "height": 900
+                }
+            ]
+        }
+    ]
+}

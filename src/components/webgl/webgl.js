@@ -1,0 +1,101 @@
+import * as THREE from 'three'
+import * as OrbitControls from 'three-orbitcontrols'
+import Stats from 'stats.js'
+
+// scenes
+import Stage from './stages/stage'
+
+// json
+import data from '../../assets/json/data'
+
+class WebGL {
+    constructor() {
+        this.raf = 0;
+
+        this.scene = new THREE.Scene()
+        
+        this.renderer = new THREE.WebGLRenderer({
+            antialias: true
+        });
+
+        this.stats = new Stats()
+
+        this.stages = data.stages
+    }
+
+    initCamera() {
+        this.camera = new THREE.PerspectiveCamera(
+            75,
+            innerWidth / innerHeight,
+            0.1,
+            10
+        )
+
+        this.camera.position.set(0, 0, .1)
+    }
+
+    initControls() {
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+
+        this.controls.enableDamping = true;
+        this.controls.dampingFactor = .3;
+    }
+
+    initStages() {
+        this.stages.forEach((stage) => {
+            const id = new Stage(this.scene, stage.name)
+            id.init()
+        })
+    }
+
+    events() {
+        window.addEventListener('resize', this.onResize);
+    }
+
+    onResize = () => {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    render = () => {
+        this.raf = undefined;
+    
+        this.renderer.render(this.scene, this.camera);
+    
+        this.start();
+
+        this.stats.update()
+        this.controls.update()
+    }
+
+    start = () => {
+        if (!this.raf) {
+            this.raf = window.requestAnimationFrame(this.render);
+        }
+    }
+
+    stop = () => {
+        if (this.raf) {
+            window.cancelAnimationFrame(this.raf);
+            this.raf = undefined;
+        }
+    }
+
+    init() {
+        this.renderer.setPixelRatio(window.devicePixelRatio);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+        document.body.appendChild(this.renderer.domElement);
+        document.body.appendChild(this.stats.dom)
+
+        this.initCamera()
+        this.initControls()
+        this.start()
+        this.events()
+        this.initStages()
+    }
+}
+
+export default WebGL
