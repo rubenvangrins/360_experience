@@ -1,7 +1,8 @@
 {
     "stages": [
-        {
-            "name": "courtyard",
+        {   
+            "id": 1,
+            "name": "courtyard",        
             "outerImage": "../../src/assets/img/beerze.jpg",
             "videos": [
                 {
@@ -36,6 +37,26 @@
                     "width": 936,
                     "height": 900
                 }
+            ],
+            "buttons": [
+                {
+                    "name": "button--dj",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": 66,
+                    "y": -6,
+                    "z": -70,
+                    "datGUI": false
+                },
+                {
+                    "name": "button--bar",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": 66,
+                    "y": -6,
+                    "z": 73,
+                    "datGUI": false
+                }                
             ]
         }
     ]

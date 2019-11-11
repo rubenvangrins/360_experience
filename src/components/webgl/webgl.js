@@ -24,14 +24,8 @@ class WebGL {
     }
 
     initCamera() {
-        this.camera = new THREE.PerspectiveCamera(
-            75,
-            innerWidth / innerHeight,
-            0.1,
-            10
-        )
-
-        this.camera.position.set(0, 0, .1)
+        this.camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000)
+        this.camera.position.set(0, 0, 1)
     }
 
     initControls() {
