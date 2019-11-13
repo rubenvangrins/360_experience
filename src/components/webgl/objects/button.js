@@ -1,9 +1,13 @@
 import * as THREE from 'three'
 import * as dat from 'dat.gui'
+import TweenMax from 'gsap'
 
 class Button {
-    constructor(scene, buttonName, radius,x, y, z, datGUI) {
+    constructor(scene, type, buttonName, radius,x, y, z, datGUI) {
         this.scene = scene
+        this.type = type        
+        this.buttonName = buttonName
+
         this.radius = radius
         this.x = x
         this.y = y
@@ -13,13 +17,12 @@ class Button {
 
         this.raycaster = new THREE.Raycaster()
         this.mouse = new THREE.Vector2()
-
-        this.buttonName = buttonName
     }
 
     createButton() {
         this.material = new THREE.MeshBasicMaterial({
-            color: 0xffffff
+            color: 0xffffff,
+            transparent: true
         })
 
         this.geometry = new THREE.SphereGeometry(this.radius, 32, 32)
@@ -47,10 +50,19 @@ class Button {
         }
     }
 
+    buttonPulse() {
+        TweenMax.to(this.mesh.scale, 1, {x:1.2, y:1.2, z:1.2, repeat:-1, yoyo:true})
+        TweenMax.from(this.mesh.material, 1, {opacity: .8, repeat: -1, yoyo: true}) 
+    }
+
     init() {
         this.createButton()
 
         this.addGUI()
+
+        this.buttonPulse()
+
+        this.buttonInteraction()
     }
 }
 

@@ -58,6 +58,7 @@ class Stage {
                 stage.buttons.forEach((button) => {
                     const id = new Button(
                         this.scene,
+                        button.type,
                         button.name,
                         button.radius,
                         button.x,
