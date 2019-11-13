@@ -21,6 +21,11 @@ class WebGL {
         this.stats = new Stats()
 
         this.stages = data.stages
+
+        this.groups = []
+
+        this.raycaster = new THREE.Raycaster();
+        this.mouse = new THREE.Vector2()
     }
 
     initCamera() {
@@ -39,12 +44,42 @@ class WebGL {
         this.stages.forEach((stage) => {
             const id = new Stage(this.scene, stage.name)
             id.init()
+
+            this.group = new THREE.Group()
+        
+            this.group.add(id.sphere.mesh)
+
+            if (id.buttons) {
+                id.buttons.forEach((button) => this.group.add(button.mesh))
+            }
+
+            this.group.name = stage.name
+
+            this.groups.push(this.group)
+            this.scene.add(this.group)        
         })
     }
 
     events() {
-        window.addEventListener('resize', this.onResize);
+        // window.addEventListener('click', this.onButtonClick)
+        window.addEventListener('resize', this.onResize)
     }
+
+    // onButtonClick = (e) => {
+    //     e.preventDefault()
+
+    //     this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1
+    //     this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1
+
+    //     this.raycaster.setFromCamera(this.mouse, this.camera)
+
+    //     this.groups.forEach((group) => {
+    //         this.intersects = this.raycaster.intersectObjects( group.children );
+    //         this.intersects.forEach((intersect) => {
+    //             console.log(intersect)
+    //         })
+    //     })
+    // }
 
     onResize = () => {
         this.camera.aspect = window.innerWidth / window.innerHeight;

@@ -14,9 +14,6 @@ class Button {
         this.z = z
 
         this.datGUI = Boolean(datGUI)
-
-        this.raycaster = new THREE.Raycaster()
-        this.mouse = new THREE.Vector2()
     }
 
     createButton() {
@@ -29,11 +26,11 @@ class Button {
 
         this.mesh = new THREE.Mesh(this.geometry, this.material)
 
+        this.mesh.name = this.buttonName
+
         this.mesh.position.x = this.x
         this.mesh.position.y = this.y
         this.mesh.position.z = this.z
-
-        this.scene.add(this.mesh)        
     }
 
     addGUI() {
@@ -57,12 +54,8 @@ class Button {
 
     init() {
         this.createButton()
-
         this.addGUI()
-
         this.buttonPulse()
-
-        this.buttonInteraction()
     }
 }
 
