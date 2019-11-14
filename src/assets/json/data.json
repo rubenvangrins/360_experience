@@ -1,7 +1,7 @@
 {
     "stages": [
         {   
-            "id": 1,
+            "id": 0,
             "name": "courtyard",        
             "outerImage": "../../src/assets/img/beerze.jpg",
             "videos": [
@@ -64,9 +64,38 @@
                     "x": -75,
                     "y": -6,
                     "z": -33,
-                    "datGUI": true
+                    "datGUI": false
                 }                  
             ]
+<<<<<<< Updated upstream
+=======
+        },
+        {
+            "id": 1,
+            "name": "dj-booth",        
+            "outerImage": "../../src/assets/img/beerze_dj.jpg",
+            "buttons": [
+                {
+                    "name": "courtyard",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": -13,
+                    "y": -6,
+                    "z": -81,
+                    "datGUI": false                    
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "bar",        
+            "outerImage": "../../src/assets/img/beerze_bar.jpg"
+        },
+        {
+            "id": 3,
+            "name": "jasper-ivo",        
+            "outerImage": "../../src/assets/img/beerze_jasper-ivo.jpg"
+>>>>>>> Stashed changes
         }
     ]
 }
