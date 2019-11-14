@@ -55,31 +55,40 @@ class WebGL {
 
             this.group.name = stage.name
 
+            this.group.traverse((child) => {
+                child.layers.set(stage.id)
+            })
+
             this.groups.push(this.group)
             this.scene.add(this.group)        
         })
     }
 
     events() {
-        // window.addEventListener('click', this.onButtonClick)
+        window.addEventListener('click', this.onButtonClick)
         window.addEventListener('resize', this.onResize)
     }
 
-    // onButtonClick = (e) => {
-    //     e.preventDefault()
+    onButtonClick = (e) => {
+        e.preventDefault()
 
-    //     this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1
-    //     this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1
+        this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1
+        this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1
 
-    //     this.raycaster.setFromCamera(this.mouse, this.camera)
+        this.raycaster.setFromCamera(this.mouse, this.camera)
 
-    //     this.groups.forEach((group) => {
-    //         this.intersects = this.raycaster.intersectObjects( group.children );
-    //         this.intersects.forEach((intersect) => {
-    //             console.log(intersect)
-    //         })
-    //     })
-    // }
+        this.groups.forEach((group) => {
+            this.intersects = this.raycaster.intersectObjects( group.children );
+            this.intersects.forEach((intersect) => {
+                this.stages.forEach((stage) => {
+                    if(intersect.object.name === stage.name) {
+                        this.camera.layers.disableAll()
+                        this.camera.layers.enable(stage.id)
+                    }
+                })
+            })
+        })
+    }
 
     onResize = () => {
         this.camera.aspect = window.innerWidth / window.innerHeight;
