@@ -23,8 +23,8 @@ class Stage {
 
         this.stages.forEach((stage) => {
             if(stage.name === this.stageName) {
-
-                this.outerImage = new panoramicImage(this.canvas.context, stage.outerImage)
+                
+                this.outerImage = new panoramicImage(this.canvas.context, this.texture, stage.outerImage)
                 this.outerImage.init()
 
                 if(typeof stage.videos !== 'undefined') {
@@ -48,13 +48,14 @@ class Stage {
     }
 
     createStage() {
-        this.sphere = new Sphere(this.scene, this.fillCanvas());
+        this.sphere = new Sphere(this.scene, this.fillCanvas())
         this.sphere.create()
     }
 
     addButtons() {
         this.stages.forEach((stage) => {
             if(stage.name === this.stageName && typeof stage.buttons !== 'undefined') {
+                this.buttons = []
                 stage.buttons.forEach((button) => {
                     const id = new Button(
                         this.scene,
@@ -67,6 +68,7 @@ class Stage {
                         button.datGUI
                     )
                     id.init()
+                    this.buttons.push(id)
                 })               
             }
         })
