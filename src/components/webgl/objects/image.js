@@ -1,8 +1,9 @@
 class panoramicImage{
-    constructor(ctx, imageSource) {
+    constructor(ctx, texture, imageSource) {
         this.imageSource = imageSource
 
         this.ctx = ctx
+        this.texture = texture
 
         this.stageImage = new Image()
     }
@@ -12,6 +13,8 @@ class panoramicImage{
 
         this.stageImage.onload = () => {
             this.ctx.drawImage(this.stageImage, 0, 0, this.stageImage.width, this.stageImage.height)
+
+            this.texture.needsUpdate = true
         }
     }
 
