@@ -2,18 +2,24 @@ import * as THREE from 'three'
 import * as dat from 'dat.gui'
 import TweenMax from 'gsap'
 
+//json
+import data from '../../../assets/json/data'
+
 class Button {
-    constructor(scene, type, buttonName, radius,x, y, z, datGUI) {
-        this.scene = scene
-        this.type = type        
-        this.buttonName = buttonName
+    constructor(options) {
+        this.scene = options.scene
+        this.type = options.type        
+        this.buttonName = options.buttonName
+        this.linkTo = options.linkTo
 
-        this.radius = radius
-        this.x = x
-        this.y = y
-        this.z = z
+        this.radius = options.radius
+        this.x = options.x
+        this.y = options.y
+        this.z = options.z
 
-        this.datGUI = Boolean(datGUI)
+        this.stages = data.stages
+
+        this.datGUI = Boolean(options.datGUI)
     }
 
     createButton() {
@@ -28,6 +34,16 @@ class Button {
 
         this.mesh.name = this.buttonName
 
+        this.stages.forEach((stage) => {
+            stage.buttons.forEach((button) => {
+                if(button.type === 'nav') {
+                    this.mesh.userData = this.linkTo
+                } else if (button.type === 'product') {
+                    this.mesh.userData = this.linkTo
+                }
+            })
+        })
+
         this.mesh.position.x = this.x
         this.mesh.position.y = this.y
         this.mesh.position.z = this.z
@@ -37,13 +53,32 @@ class Button {
         if(this.datGUI === true) {
             this.gui = new dat.GUI()
 
-            let button = this.gui.addFolder(this.buttonName)
+            this.button = this.gui.addFolder(this.buttonName)
 
-            button.add(this.mesh.position, 'x', -100, 100).name('x').listen()
-            button.add(this.mesh.position, 'y', -100, 100).name('y').listen()
-            button.add(this.mesh.position, 'z', -100, 100).name('z').listen()
+            this.copyToClipboard = (values) => {
+                document.execCommand('copy')
+            }
 
-            button.open()
+            this.values = {
+                add: () => {
+                    navigator.clipboard.writeText(`"x": ${Math.round(this.mesh.position.x)},
+                        "y": ${Math.round(this.mesh.position.y)},
+                        "z": ${Math.round(this.mesh.position.z)},`).then(() => {
+                            console.log('x, y, z copied to clipboard')
+                        })
+                }
+            }
+
+            this.button.add(this.mesh.position, 'x', -100, 100).name('x').listen()
+            this.button.add(this.mesh.position, 'y', -100, 100).name('y').listen()
+            this.button.add(this.mesh.position, 'z', -100, 100).name('z').listen()
+            this.button.add(this.values, 'add').name('get values: x, y, z')
+
+            this.mesh.addEventListener('change', () => {
+                console.log('huts')
+            })
+
+            this.button.open()
         }
     }
 

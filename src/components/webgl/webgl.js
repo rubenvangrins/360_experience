@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import * as OrbitControls from 'three-orbitcontrols'
 import Stats from 'stats.js'
+import TweenMax from 'gsap'
 
 // scenes
 import Stage from './stages/stage'
@@ -60,7 +61,7 @@ class WebGL {
             })
 
             this.groups.push(this.group)
-            this.scene.add(this.group)        
+            this.scene.add(this.group)
         })
     }
 
@@ -72,22 +73,25 @@ class WebGL {
     onButtonClick = (e) => {
         e.preventDefault()
 
-        this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1
-        this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1
+        this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+        this.mouse.y = - (e.clientY / window.innerHeight) * 2 + 1
 
         this.raycaster.setFromCamera(this.mouse, this.camera)
 
         this.groups.forEach((group) => {
-            this.intersects = this.raycaster.intersectObjects( group.children );
+            this.intersects = this.raycaster.intersectObjects(group.children)
             this.intersects.forEach((intersect) => {
                 this.stages.forEach((stage) => {
-                    if(intersect.object.name === stage.name) {
+                    if (intersect.object.userData === stage.name) {
+
                         this.camera.layers.disableAll()
                         this.camera.layers.enable(stage.id)
+
                     }
                 })
             })
         })
+        
     }
 
     onResize = () => {
@@ -97,12 +101,19 @@ class WebGL {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
+    statsUI = () => {
+        console.log(this.stats.dom.style)
+
+        this.stats.dom.style.top = null
+        this.stats.dom.style.bottom = 0
+    }
+
     render = () => {
-        this.raf = undefined;
+        this.raf = undefined
     
-        this.renderer.render(this.scene, this.camera);
+        this.renderer.render(this.scene, this.camera)
     
-        this.start();
+        this.start()
 
         this.stats.update()
         this.controls.update()
@@ -132,6 +143,7 @@ class WebGL {
         this.initControls()
         this.start()
         this.events()
+        this.statsUI()
         this.initStages()
     }
 }

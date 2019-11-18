@@ -57,16 +57,17 @@ class Stage {
             if(stage.name === this.stageName && typeof stage.buttons !== 'undefined') {
                 this.buttons = []
                 stage.buttons.forEach((button) => {
-                    const id = new Button(
-                        this.scene,
-                        button.type,
-                        button.name,
-                        button.radius,
-                        button.x,
-                        button.y,
-                        button.z,
-                        button.datGUI
-                    )
+                    const id = new Button({
+                        scene: this.scene,
+                        type: button.type,
+                        linkTo: button.linkTo,
+                        buttonName: button.name,
+                        radius: button.radius,
+                        x: button.x,
+                        y: button.y,
+                        z: button.z,
+                        datGUI: button.datGUI
+                    })
                     id.init()
                     this.buttons.push(id)
                 })               

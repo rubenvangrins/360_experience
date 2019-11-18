@@ -6,6 +6,7 @@
             "outerImage": "../../src/assets/img/beerze.jpg",
             "videos": [
                 {
+                    "id": 0,
                     "name": "jasperIvo",
                     "url": "../../src/assets/video/jasper_ivo.mp4",
                     "x": 2077,
@@ -14,33 +15,38 @@
                     "height": 200
                 },
                 {
+                    "id": 1,
                     "name": "djBooth",
                     "url": "../../src/assets/video/dj.mp4",
-                    "x": 3274,
+                    "x": 3274, 
                     "y": 947.5,
                     "width": 170,
                     "height": 300
                 },
                 {
+                    "id": 2,
                     "name": "tableSmall",
                     "url": "../../src/assets/video/borrel_tafel_small.mp4",
                     "x": 3489,
-                    "y": 984,
-                    "width": 408,
-                    "height": 900
+                    "y": 983,
+                    "width": 370,
+                    "height": 902
                 },
                 {
+                    "id": 3,
                     "name": "tableBig",
                     "url": "../../src/assets/video/borrel_tafel_big.mp4",
-                    "x": 5,
-                    "y": 984,
-                    "width": 936,
-                    "height": 900
+                    "x": 0,
+                    "y": 983,
+                    "width": 960,
+                    "height": 902
                 }
             ],
             "buttons": [
                 {
-                    "name": "dj-booth",
+                    "id": 0,
+                    "name": "button--dj-booth",
+                    "linkTo": "dj-booth",
                     "type": "nav",
                     "radius": 1,
                     "x": 66,
@@ -49,7 +55,9 @@
                     "datGUI": false
                 },
                 {
-                    "name": "bar",
+                    "id": 1,
+                    "name": "button--bar",
+                    "linkTo": "bar",
                     "type": "nav",
                     "radius": 1,
                     "x": 66,
@@ -58,12 +66,25 @@
                     "datGUI": false
                 },
                 {
-                    "name": "jasper-ivo",
+                    "id": 2,
+                    "name": "button--jasper-ivo",
+                    "linkTo": "jasper-ivo",
                     "type": "nav",
                     "radius": 1,
                     "x": -75,
                     "y": -6,
                     "z": -33,
+                    "datGUI": false
+                },
+                {
+                    "id": 3,
+                    "name": "button--product",
+                    "linkTo": "bier-fles",
+                    "type": "product",
+                    "radius": 1,
+                    "x": 42,
+                    "y": -26,
+                    "z": 33,
                     "datGUI": false
                 }                  
             ]
@@ -74,7 +95,9 @@
             "outerImage": "../../src/assets/img/beerze_dj.jpg",
             "buttons": [
                 {
-                    "name": "courtyard",
+                    "id": 0,
+                    "name": "button--courtyard",
+                    "linkTo": "courtyard",
                     "type": "nav",
                     "radius": 1,
                     "x": -15,
@@ -83,7 +106,9 @@
                     "datGUI": false
                 },
                 {
-                    "name": "bar",
+                    "id": 1,
+                    "name": "button--bar",
+                    "linkTo": "bar",
                     "type": "nav",
                     "radius": 1,
                     "x": -90,
@@ -99,7 +124,9 @@
             "outerImage": "../../src/assets/img/beerze_bar.jpg",
             "buttons": [
                 {
-                    "name": "courtyard",
+                    "id": 0,
+                    "name": "button--courtyard",
+                    "linkTo": "courtyard",
                     "type": "nav",
                     "radius": 1,
                     "x": -100,
@@ -108,7 +135,9 @@
                     "datGUI": false
                 },
                 {
-                    "name": "dj-booth",
+                    "id": 1,
+                    "name": "button--dj",
+                    "linkTo": "dj-booth",
                     "type": "nav",
                     "radius": 1,
                     "x": -73,
@@ -124,7 +153,9 @@
             "outerImage": "../../src/assets/img/beerze_jasper-ivo.jpg",
             "buttons": [
                 {
-                    "name": "courtyard",
+                    "id": 0,
+                    "name": "button--courtyard",
+                    "linkTo": "courtyard",
                     "type": "nav",
                     "radius": 1,
                     "x": 84,
