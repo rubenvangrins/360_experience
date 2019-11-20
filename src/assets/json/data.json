@@ -144,22 +144,22 @@
                     "id": 0,
                     "name": "sound--dj-booth",
                     "source": "../../src/assets/audio/music.mp3",
-                    "x": 71,
-                    "y": 3,
-                    "z": -68,
-                    "audioDistance": 1,
+                    "x": 3,
+                    "y": 0,
+                    "z": -2,
+                    "audioDistance": 1.25,
                     "datGUI": false     
                 },
                 {
                     "id": 1,
-                    "name": "sound--table",
-                    "source": "../../src/assets/audio/borreltafel.mp3",
-                    "x": 11,
-                    "y": -4,
-                    "z": 7,
-                    "audioDistance": 5,
+                    "name": "sound--dj-birds",
+                    "source": "../../src/assets/audio/birds.mp3",
+                    "x": 0,
+                    "y": 10,
+                    "z": 0,
+                    "audioDistance": 10,
                     "datGUI": false     
-                }                
+                }                                
             ] 
         },
         {

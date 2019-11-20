@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import * as OrbitControls from 'three-orbitcontrols'
 import Stats from 'stats.js'
-import { TimelineMax } from 'gsap'
+import TweenMax from 'gsap'
 
 // scenes
 import Stage from './stages/stage'
@@ -21,18 +21,18 @@ class WebGL {
 
         this.stats = new Stats()
 
-        this.stages = data.stages
+        this.dataStages = data.stages
 
         this.groups = []
+        this.stages = []
 
-        this.raycaster = new THREE.Raycaster()
+        this.activeGroup = null
+        this.activeSound = null
+
+        this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2()
 
         this.startButton = document.querySelector('#button')
-
-        this.tl = new TimelineMax();
-
-        this.objHidden = true
     }
 
     initCamera() {
@@ -48,7 +48,7 @@ class WebGL {
     }
 
     initStages() {
-        this.stages.forEach((stage) => {
+        this.dataStages.forEach((stage) => {
             const id = new Stage(this.scene, this.camera, stage.name)
             id.init()
 
@@ -60,55 +60,45 @@ class WebGL {
                 id.buttons.forEach((button) => this.group.add(button.mesh))
             }
 
+            if (id.sounds) {
+                id.sounds.forEach((sound) => this.group.add(sound.mesh))
+            }
+
             this.group.name = stage.name
 
-            this.group.traverse((child) => {
-                child.layers.set(stage.id)
-            })
-
-            // if (stage.id !== 0) {
-            //     this.group.visible = false
-            // }
-
-            this.group.layers.set(stage.id)
-
-            if (id.sounds) {
-                id.sounds.forEach((sound) => {
-                    this.group.add(sound.mesh)
-                })
+            if (stage.id !== 0) {
+                this.group.visible = false
             }
 
             this.groups.push(this.group)
-
-            if (this.group.visible !== false) {
-                this.scene.add(this.group)
-            }
+            this.scene.add(this.group)
+            this.stages.push(id)
         })
+
+        this.activeGroup = this.groups[0]
+        this.activeSound = this.stages[0]
     }
 
-    // startSound() {
-    //     // this.groups.forEach((group) => {
-    //     //     if(group.visible === true) {
-    //     //         console.log('is zichtbaar')
-    //     //     } else if (group.visible === false) {
-    //     //         console.log('is niet zichtbaar')
-    //     //     }
-    //     // })
-    // }
-
     events() {
-        this.startButton.addEventListener('click', this.startExperience)
-        window.addEventListener('click', this.onButtonClick)
+        this.startButton.addEventListener('click', this.startSounds)
+        window.addEventListener('click', this.changeScene)
         window.addEventListener('resize', this.onResize)
     }
 
-    startExperience = ()    => {
-        this.start()
-        this.initStages()
+    startSounds = (e) => {
+        e.preventDefault()
+        if (this.activeGroup.name === this.activeSound.stageName) {
+            this.activeSound.sounds.forEach((sound) => {
+                sound.sound.play()
+            })
+        }
+
+        this.startButton.style.display = "none"
+
+        
     }
 
-
-    onButtonClick = (e) => {
+    changeScene = (e) => {    
         e.preventDefault()
 
         this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1
@@ -116,17 +106,49 @@ class WebGL {
 
         this.raycaster.setFromCamera(this.mouse, this.camera)
 
-        this.groups.forEach((group) => {
-            this.intersects = this.raycaster.intersectObjects(group.children)
-            this.intersects.forEach((intersect) => {
-                this.stages.forEach((stage) => {
-                    if (intersect.object.userData === stage.name) {   
+        this.intersects = this.raycaster.intersectObjects(this.activeGroup.children)
 
-                        this.camera.layers.disableAll()
-                        this.camera.layers.enable(stage.id)
+        this.intersects.forEach((intersect) => {
 
-                    }
-                })
+            this.dataStages.forEach((dataStage) => {
+
+                if (intersect.object.userData === dataStage.name) {
+
+                    this.activeGroup.visible = false
+
+                    this.groups.forEach((group) => {
+
+                        if (group.name === dataStage.name) {
+
+                            group.visible = true
+                            this.activeGroup = group
+
+                        }
+
+                    })
+
+                    this.stages.forEach((stage) => {
+
+                        if (stage.sounds) {
+
+                            this.activeSound.sounds.forEach((sound) => {
+
+                                sound.sound.pause()
+
+                            })
+
+                            if (this.activeGroup.name === stage.stageName) {
+
+                                stage.sounds.forEach((sound) => {
+
+                                    sound.sound.play()
+                                    this.activeSound = stage
+
+                                })
+                            }
+                        }
+                    })                    
+                } 
             })
         })
     }
@@ -176,9 +198,10 @@ class WebGL {
 
         this.initCamera()
         this.initControls()
-        this.stop()
+        this.start()
         this.events()
         this.statsUI()
+        this.initStages()
     }
 }
 

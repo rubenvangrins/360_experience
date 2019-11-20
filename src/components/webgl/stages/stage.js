@@ -24,12 +24,12 @@ class Stage {
         this.texture = new THREE.CanvasTexture(this.canvas.el)
 
         this.stages.forEach((stage) => {
-            if (stage.name === this.stageName) {
+            if(stage.name === this.stageName) {
                 
                 this.outerImage = new panoramicImage(this.canvas.context, this.texture, stage.outerImage)
                 this.outerImage.init()
 
-                if (typeof stage.videos !== 'undefined') {
+                if(typeof stage.videos !== 'undefined') {
                     stage.videos.forEach((video) => {
                         const id = new Video(
                             this.canvas.context,
@@ -56,10 +56,11 @@ class Stage {
 
     addButtons() {
         this.stages.forEach((stage) => {
-            if (stage.name === this.stageName && typeof stage.buttons !== 'undefined') {
+            if(stage.name === this.stageName && typeof stage.buttons !== 'undefined') {
                 this.buttons = []
                 stage.buttons.forEach((button) => {
                     const id = new Button({
+                        scene: this.scene,
                         type: button.type,
                         linkTo: button.linkTo,
                         buttonName: button.name,
@@ -96,7 +97,7 @@ class Stage {
                 })  
             }
         })
-    }
+    }    
 
     init() {
         this.canvas.create()
@@ -107,4 +108,3 @@ class Stage {
 }
 
 export default Stage
-

@@ -26,13 +26,15 @@ class Audio {
         this.audioLoader.load(this.audioSource, (buffer) => {
             this.sound.setBuffer(buffer)
             this.sound.setRefDistance(this.audioDistance)
-            this.sound.play()
         })
     }
 
     createAudioSphere() {
         this.sphere = new THREE.SphereGeometry( 1, 1, 1 );
-        this.material = new THREE.MeshBasicMaterial({wireframe: true});
+        this.material = new THREE.MeshBasicMaterial({
+            alpha: true, 
+            opacity: 0
+        });
         this.mesh = new THREE.Mesh(this.sphere, this.material );
 
         this.mesh.name = this.audioName
