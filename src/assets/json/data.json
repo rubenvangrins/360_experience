@@ -87,7 +87,29 @@
                     "z": 33,
                     "datGUI": false
                 }                  
-            ]
+            ],
+            "sounds": [
+                {
+                    "id": 0,
+                    "name": "sound--dj-booth",
+                    "source": "../../src/assets/audio/music.mp3",
+                    "x": 71,
+                    "y": 3,
+                    "z": -68,
+                    "audioDistance": 1,
+                    "datGUI": false     
+                },
+                {
+                    "id": 1,
+                    "name": "sound--table",
+                    "source": "../../src/assets/audio/borreltafel.mp3",
+                    "x": 11,
+                    "y": -4,
+                    "z": 7,
+                    "audioDistance": 5,
+                    "datGUI": false     
+                }                
+            ]   
         },
         {
             "id": 1,
@@ -116,7 +138,29 @@
                     "z": -40,
                     "datGUI": false
                 }
-            ]
+            ],
+            "sounds": [
+                {
+                    "id": 0,
+                    "name": "sound--dj-booth",
+                    "source": "../../src/assets/audio/music.mp3",
+                    "x": 71,
+                    "y": 3,
+                    "z": -68,
+                    "audioDistance": 1,
+                    "datGUI": false     
+                },
+                {
+                    "id": 1,
+                    "name": "sound--table",
+                    "source": "../../src/assets/audio/borreltafel.mp3",
+                    "x": 11,
+                    "y": -4,
+                    "z": 7,
+                    "audioDistance": 5,
+                    "datGUI": false     
+                }                
+            ] 
         },
         {
             "id": 2,

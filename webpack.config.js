@@ -28,23 +28,7 @@ module.exports = {
               },
               'sass-loader'
             ]
-        },
-        {
-          test: /\.(png|jpe?g|gif)$/i,
-          loader: 'file-loader',
-          options: {
-            name: 'assets/img/[name].[ext]',
-            publicPath: 'build',
-          },
-        },      
-        {
-          test: /\.(mp4|webm)$/i,
-          loader: 'file-loader',
-          options: {
-            name: 'assets/video/[name].[ext]',
-            publicPath: 'build',
-          },
-        },                
+        }             
     ]
   },  
   plugins: [

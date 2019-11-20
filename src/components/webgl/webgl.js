@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import * as OrbitControls from 'three-orbitcontrols'
 import Stats from 'stats.js'
-import TweenMax from 'gsap'
+import { TimelineMax } from 'gsap'
 
 // scenes
 import Stage from './stages/stage'
@@ -25,8 +25,14 @@ class WebGL {
 
         this.groups = []
 
-        this.raycaster = new THREE.Raycaster();
+        this.raycaster = new THREE.Raycaster()
         this.mouse = new THREE.Vector2()
+
+        this.startButton = document.querySelector('#button')
+
+        this.tl = new TimelineMax();
+
+        this.objHidden = true
     }
 
     initCamera() {
@@ -43,7 +49,7 @@ class WebGL {
 
     initStages() {
         this.stages.forEach((stage) => {
-            const id = new Stage(this.scene, stage.name)
+            const id = new Stage(this.scene, this.camera, stage.name)
             id.init()
 
             this.group = new THREE.Group()
@@ -60,15 +66,47 @@ class WebGL {
                 child.layers.set(stage.id)
             })
 
+            // if (stage.id !== 0) {
+            //     this.group.visible = false
+            // }
+
+            this.group.layers.set(stage.id)
+
+            if (id.sounds) {
+                id.sounds.forEach((sound) => {
+                    this.group.add(sound.mesh)
+                })
+            }
+
             this.groups.push(this.group)
-            this.scene.add(this.group)
+
+            if (this.group.visible !== false) {
+                this.scene.add(this.group)
+            }
         })
     }
 
+    // startSound() {
+    //     // this.groups.forEach((group) => {
+    //     //     if(group.visible === true) {
+    //     //         console.log('is zichtbaar')
+    //     //     } else if (group.visible === false) {
+    //     //         console.log('is niet zichtbaar')
+    //     //     }
+    //     // })
+    // }
+
     events() {
+        this.startButton.addEventListener('click', this.startExperience)
         window.addEventListener('click', this.onButtonClick)
         window.addEventListener('resize', this.onResize)
     }
+
+    startExperience = ()    => {
+        this.start()
+        this.initStages()
+    }
+
 
     onButtonClick = (e) => {
         e.preventDefault()
@@ -82,7 +120,7 @@ class WebGL {
             this.intersects = this.raycaster.intersectObjects(group.children)
             this.intersects.forEach((intersect) => {
                 this.stages.forEach((stage) => {
-                    if (intersect.object.userData === stage.name) {
+                    if (intersect.object.userData === stage.name) {   
 
                         this.camera.layers.disableAll()
                         this.camera.layers.enable(stage.id)
@@ -91,7 +129,6 @@ class WebGL {
                 })
             })
         })
-        
     }
 
     onResize = () => {
@@ -102,8 +139,6 @@ class WebGL {
     }
 
     statsUI = () => {
-        console.log(this.stats.dom.style)
-
         this.stats.dom.style.top = null
         this.stats.dom.style.bottom = 0
     }
@@ -141,10 +176,9 @@ class WebGL {
 
         this.initCamera()
         this.initControls()
-        this.start()
+        this.stop()
         this.events()
         this.statsUI()
-        this.initStages()
     }
 }
 

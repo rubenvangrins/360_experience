@@ -7,7 +7,6 @@ import data from '../../../assets/json/data'
 
 class Button {
     constructor(options) {
-        this.scene = options.scene
         this.type = options.type        
         this.buttonName = options.buttonName
         this.linkTo = options.linkTo
@@ -55,10 +54,6 @@ class Button {
 
             this.button = this.gui.addFolder(this.buttonName)
 
-            this.copyToClipboard = (values) => {
-                document.execCommand('copy')
-            }
-
             this.values = {
                 add: () => {
                     navigator.clipboard.writeText(`"x": ${Math.round(this.mesh.position.x)},
@@ -73,10 +68,6 @@ class Button {
             this.button.add(this.mesh.position, 'y', -100, 100).name('y').listen()
             this.button.add(this.mesh.position, 'z', -100, 100).name('z').listen()
             this.button.add(this.values, 'add').name('get values: x, y, z')
-
-            this.mesh.addEventListener('change', () => {
-                console.log('huts')
-            })
 
             this.button.open()
         }

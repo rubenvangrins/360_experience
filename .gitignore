@@ -4,8 +4,7 @@ src/assets/audio
 src/assets/fonts
 src/assets/img
 src/assets/video
-build/css
-build/js
+build
 
 // Files
 yarn.lock
