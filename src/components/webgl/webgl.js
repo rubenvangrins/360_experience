@@ -25,6 +25,8 @@ class WebGL {
 
         this.groups = []
 
+        this.activeGroup = null
+
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2()
     }
@@ -46,6 +48,8 @@ class WebGL {
             const id = new Stage(this.scene, stage.name)
             id.init()
 
+            console.log(id)
+
             this.group = new THREE.Group()
         
             this.group.add(id.sphere.mesh)
@@ -56,13 +60,15 @@ class WebGL {
 
             this.group.name = stage.name
 
-            this.group.traverse((child) => {
-                child.layers.set(stage.id)
-            })
+            if (stage.id !== 0) {
+                this.group.visible = false
+            }
 
             this.groups.push(this.group)
             this.scene.add(this.group)
         })
+
+        this.activeGroup = this.groups[0]
     }
 
     events() {
@@ -78,20 +84,28 @@ class WebGL {
 
         this.raycaster.setFromCamera(this.mouse, this.camera)
 
-        this.groups.forEach((group) => {
-            this.intersects = this.raycaster.intersectObjects(group.children)
-            this.intersects.forEach((intersect) => {
-                this.stages.forEach((stage) => {
-                    if (intersect.object.userData === stage.name) {
+        this.intersects = this.raycaster.intersectObjects(this.activeGroup.children)
+        this.intersects.forEach((intersect) => {
 
-                        this.camera.layers.disableAll()
-                        this.camera.layers.enable(stage.id)
+            this.stages.forEach((stage) => {
 
-                    }
-                })
+                if (intersect.object.userData === stage.name) {
+
+                    this.activeGroup.visible = false
+
+                    this.groups.forEach((group) => {
+
+                        if (group.name === stage.name) {
+
+                            group.visible = true;
+                            this.activeGroup = group;
+
+                        }
+                    })
+
+                } 
             })
         })
-        
     }
 
     onResize = () => {
@@ -102,8 +116,6 @@ class WebGL {
     }
 
     statsUI = () => {
-        console.log(this.stats.dom.style)
-
         this.stats.dom.style.top = null
         this.stats.dom.style.bottom = 0
     }
