@@ -9,30 +9,37 @@ import Stage from './stages/stage'
 // json
 import data from '../../assets/json/data'
 
+
+// Products
+import Products from '../products/product'
+
 class WebGL {
     constructor() {
-        this.raf = 0;
+        this.raf = 0
 
         this.scene = new THREE.Scene()
         
         this.renderer = new THREE.WebGLRenderer({
             antialias: true
-        });
+        })
 
         this.stats = new Stats()
 
         this.dataStages = data.stages
+        this.dataProducts = data.products
 
         this.groups = []
         this.stages = []
         this.currentSound = []
+
+        this.productDetail = document.querySelector('.product__detail')
 
         this.activeGroup = null
         this.activeSound = null
 
         this.activeGroup = null
 
-        this.raycaster = new THREE.Raycaster();
+        this.raycaster = new THREE.Raycaster()
         this.mouse = new THREE.Vector2()
 
         this.startButton = document.querySelector('#button')
@@ -46,16 +53,14 @@ class WebGL {
     initControls() {
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
 
-        this.controls.enableDamping = true;
-        this.controls.dampingFactor = .3;
+        this.controls.enableDamping = true
+        this.controls.dampingFactor = .3
     }
 
     initStages() {
         this.dataStages.forEach((stage) => {
             const id = new Stage(this.scene, this.camera, stage.name)
             id.init()
-
-            console.log(id)
 
             this.group = new THREE.Group()
         
@@ -87,8 +92,23 @@ class WebGL {
     events() {
         this.startButton.addEventListener('click', this.startSounds)
         window.addEventListener('click', this.changeScene)
+        window.addEventListener('click', this.openProduct)
         window.addEventListener('resize', this.onResize)
     }
+
+    // openProduct() {
+    //     this.dataProducts.forEach((product) => {
+    //         const id = new Products({
+    //             productName: product.productName,
+    //             productImage: product.productImage,
+    //             productLabel: product.productLabel,
+    //             productQuote: product.productQuote,
+    //             productcontent: product.productcontent       
+    //         })
+    //         id.create()
+    //     })
+
+    // }
 
     startSounds = () => {           
         if (this.activeStage) {
@@ -96,6 +116,43 @@ class WebGL {
                 stageSound.sound.play()
             })
         }
+    }
+
+    openProduct = (e) => {
+        e.preventDefault()
+
+        this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+        this.mouse.y = - (e.clientY / window.innerHeight) * 2 + 1
+
+        this.raycaster.setFromCamera(this.mouse, this.camera)
+
+        this.intersects = this.raycaster.intersectObjects(this.activeGroup.children)   
+        
+        this.intersects.forEach((intersect) => {
+            if (intersect.object.name === 'button--product') {    
+
+                this.dataProducts.forEach((product) => {
+
+                    if (product.productName === intersect.object.userData) {
+                        
+                        const id = new Products({
+                            productName: product.productName,
+                            productImage: product.productImage,
+                            productLabel: product.productLabel,
+                            productQuote: product.productQuote,
+                            productcontent: product.productcontent       
+                        })
+
+                        id.create()       
+                        
+                        this.productDetail.style.display = 'block'
+
+                    }
+
+                })
+
+            }
+        })
     }
 
     changeScene = (e) => {    
@@ -148,11 +205,11 @@ class WebGL {
                                 stage.sounds.forEach((stageSound) => {
                                     this.currentSound.forEach((sound) => {
                                         if (stageSound.audioName == sound.name) {
-                                            stageSound.sound.offset = sound.time;
+                                            stageSound.sound.offset = sound.time
                                         }
                                     })
 
-                                    stageSound.sound.play();
+                                    stageSound.sound.play()
                                 })
                             }
                         }
@@ -163,10 +220,10 @@ class WebGL {
     }
 
     onResize = () => {
-        this.camera.aspect = window.innerWidth / window.innerHeight;
-        this.camera.updateProjectionMatrix();
+        this.camera.aspect = window.innerWidth / window.innerHeight
+        this.camera.updateProjectionMatrix()
 
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setSize(window.innerWidth, window.innerHeight)
     }
 
     statsUI = () => {
@@ -187,22 +244,22 @@ class WebGL {
 
     start = () => {
         if (!this.raf) {
-            this.raf = window.requestAnimationFrame(this.render);
+            this.raf = window.requestAnimationFrame(this.render)
         }
     }
 
     stop = () => {
         if (this.raf) {
-            window.cancelAnimationFrame(this.raf);
-            this.raf = undefined;
+            window.cancelAnimationFrame(this.raf)
+            this.raf = undefined
         }
     }
 
     init() {
-        this.renderer.setPixelRatio(window.devicePixelRatio);
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setPixelRatio(window.devicePixelRatio)
+        this.renderer.setSize(window.innerWidth, window.innerHeight)
 
-        document.body.appendChild(this.renderer.domElement);
+        document.body.appendChild(this.renderer.domElement)
         document.body.appendChild(this.stats.dom)
 
         this.initCamera()

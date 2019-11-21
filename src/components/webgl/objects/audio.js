@@ -16,14 +16,14 @@ class Audio {
 
         this.datGUI = Boolean(options.datGUI)
 
-        this.listener = new THREE.AudioListener();
-        this.camera.add(this.listener);
-        this.sound = new THREE.PositionalAudio(this.listener);
+        this.listener = new THREE.AudioListener()
+        this.camera.add(this.listener)
+        this.sound = new THREE.PositionalAudio(this.listener)
 
     }
 
     loadAudio() {
-        this.audioLoader = new THREE.AudioLoader();
+        this.audioLoader = new THREE.AudioLoader()
         this.audioLoader.load(this.audioSource, (buffer) => {
             this.sound.setBuffer(buffer)
             this.sound.setRefDistance(this.audioDistance)

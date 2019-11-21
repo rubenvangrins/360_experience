@@ -97,7 +97,8 @@ class Stage {
                 })  
             }
         })
-    }    
+    } 
+    
 
     init() {
         this.canvas.create()

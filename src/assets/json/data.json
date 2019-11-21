@@ -79,14 +79,25 @@
                 {
                     "id": 3,
                     "name": "button--product",
-                    "linkTo": "bier-fles",
+                    "linkTo": "bier-5-5",
                     "type": "product",
                     "radius": 1,
                     "x": 42,
                     "y": -26,
                     "z": 33,
                     "datGUI": false
-                }                  
+                },
+                {
+                    "id": 4,
+                    "name": "button--product",
+                    "linkTo": "bier-7-5",
+                    "type": "product",
+                    "radius": 1,
+                    "x": 75,
+                    "y": -29,
+                    "z": 16,
+                    "datGUI": false
+                }                 
             ],
             "sounds": [
                 {
@@ -208,6 +219,25 @@
                     "datGUI": false
                 }
             ]
+        }
+    ],
+    "products" : 
+    [
+        {
+            "productID": 0,
+            "productName": "bier-5-5",
+            "productImage": "../../src/assets/img/products/5_5/beerze_bier_55.png",
+            "productLabel": "../../src/assets/img/products/5_5/label_5_5.png",
+            "productQuote": "A classic never goes out of style",
+            "productcontent": "Beerze 5.5 – The Classic Gebaseerd op een familierecept daterend uit de jaren ’30 van de vorige eeuw. Oom Piet noemde het simpelweg een landbier, een geliefd bier dat vroeger veel gedronken werd in de Brabantse Kempen. Tegenwoordig geniet hij de voorkeur bij mensen die meer zoeken dan de grijze pilsmassa. Karakteristieker dan een pilsener, met daarbij de verfrissing van een tarwebier. Een klassieke dorstlesser van 5,5%."
+        },
+        {
+            "productID": 1,
+            "productName": "bier-7-5",
+            "productImage": "../../src/assets/img/products/7_5/beerze_bier_75.png",
+            "productLabel": "../../src/assets/img/products/7_5/label_7_5.png",
+            "productQuote": "Fortune favours the brave",
+            "productcontent": "Beerze 7.5 – The Brave Gebaseerd op een familierecept uit 1948, gebruikmakend van speciale Münchener en Vienna mout. Ivo Kaanen, de huidige brouwmeester, heeft het receptuur vertaald naar deze tijd. Het familie-gist zorgt voor een smaakvol en volmondig bier doch droog en fris in de afdronk met een spoortje zoet. Een blond bier met bravoure van 7,5%."
         }
     ]
 }
