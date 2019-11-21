@@ -1,7 +1,7 @@
 {
     "stages": [
         {   
-            "id": 0,
+            "id":   0,
             "name": "courtyard",        
             "outerImage": "../../src/assets/img/beerze.jpg",
             "videos": [
@@ -87,7 +87,29 @@
                     "z": 33,
                     "datGUI": false
                 }                  
-            ]
+            ],
+            "sounds": [
+                {
+                    "id": 0,
+                    "name": "sound--dj-booth",
+                    "source": "../../src/assets/audio/music.mp3",
+                    "x": 71,
+                    "y": 3,
+                    "z": -68,
+                    "audioDistance": 2,
+                    "datGUI": false     
+                },
+                {
+                    "id": 1,
+                    "name": "sound--table",
+                    "source": "../../src/assets/audio/borreltafel.mp3",
+                    "x": 18,
+                    "y": -11,
+                    "z": 18,
+                    "audioDistance": 10,
+                    "datGUI": false     
+                }          
+            ]   
         },
         {
             "id": 1,
@@ -116,7 +138,29 @@
                     "z": -40,
                     "datGUI": false
                 }
-            ]
+            ],
+            "sounds": [
+                {
+                    "id": 0,
+                    "name": "sound--dj-booth",
+                    "source": "../../src/assets/audio/music.mp3",
+                    "x": 3,
+                    "y": 0,
+                    "z": -2,
+                    "audioDistance": 0.1,
+                    "datGUI": false     
+                },
+                {
+                    "id": 1,
+                    "name": "sound--table",
+                    "source": "../../src/assets/audio/borreltafel.mp3",
+                    "x": -17,
+                    "y": -6,
+                    "z": -37,
+                    "audioDistance": 3,
+                    "datGUI": false     
+                }                                              
+            ] 
         },
         {
             "id": 2,

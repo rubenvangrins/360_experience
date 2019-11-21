@@ -21,14 +21,21 @@ class WebGL {
 
         this.stats = new Stats()
 
-        this.stages = data.stages
+        this.dataStages = data.stages
 
         this.groups = []
+        this.stages = []
+        this.currentSound = []
+
+        this.activeGroup = null
+        this.activeSound = null
 
         this.activeGroup = null
 
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2()
+
+        this.startButton = document.querySelector('#button')
     }
 
     initCamera() {
@@ -44,8 +51,8 @@ class WebGL {
     }
 
     initStages() {
-        this.stages.forEach((stage) => {
-            const id = new Stage(this.scene, stage.name)
+        this.dataStages.forEach((stage) => {
+            const id = new Stage(this.scene, this.camera, stage.name)
             id.init()
 
             console.log(id)
@@ -58,6 +65,10 @@ class WebGL {
                 id.buttons.forEach((button) => this.group.add(button.mesh))
             }
 
+            if (id.sounds) {
+                id.sounds.forEach((sound) => this.group.add(sound.mesh))
+            }
+
             this.group.name = stage.name
 
             if (stage.id !== 0) {
@@ -66,17 +77,28 @@ class WebGL {
 
             this.groups.push(this.group)
             this.scene.add(this.group)
+            this.stages.push(id)
         })
 
         this.activeGroup = this.groups[0]
+        this.activeStage = this.stages[0]
     }
 
     events() {
-        window.addEventListener('click', this.onButtonClick)
+        this.startButton.addEventListener('click', this.startSounds)
+        window.addEventListener('click', this.changeScene)
         window.addEventListener('resize', this.onResize)
     }
 
-    onButtonClick = (e) => {
+    startSounds = () => {           
+        if (this.activeStage) {
+            this.activeStage.sounds.forEach((stageSound) => {
+                stageSound.sound.play()
+            })
+        }
+    }
+
+    changeScene = (e) => {    
         e.preventDefault()
 
         this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1
@@ -85,24 +107,56 @@ class WebGL {
         this.raycaster.setFromCamera(this.mouse, this.camera)
 
         this.intersects = this.raycaster.intersectObjects(this.activeGroup.children)
+
         this.intersects.forEach((intersect) => {
-
-            this.stages.forEach((stage) => {
-
-                if (intersect.object.userData === stage.name) {
-
+            this.dataStages.forEach((dataStage) => {
+                if (intersect.object.userData === dataStage.name) {
                     this.activeGroup.visible = false
-
                     this.groups.forEach((group) => {
-
-                        if (group.name === stage.name) {
-
-                            group.visible = true;
-                            this.activeGroup = group;
-
+                        if (group.name === dataStage.name) {
+                            group.visible = true
+                            this.activeGroup = group
                         }
                     })
 
+                    if (this.activeStage) {
+                        this.activeStage.sounds.forEach((stageSound) => {
+                        
+                            this.soundName = stageSound.audioName
+                            this.currentTime = stageSound.sound.context.currentTime
+
+                        })
+                    }
+
+                    this.stages.forEach((stage) => {
+
+                        if (stage.sounds) {
+
+                            stage.sounds.forEach((stageSound) => {
+                                stageSound.sound.pause()
+
+                                if (this.activeStage.stageName === stageSound.mesh.parent.name) {
+                                    this.soundMemory = {
+                                        name: stageSound.audioName,
+                                        time: stageSound.sound.context.currentTime
+                                    }
+                                    this.currentSound.push(this.soundMemory)
+                                }
+                            })
+
+                            if (this.activeGroup.name === stage.stageName) {           
+                                stage.sounds.forEach((stageSound) => {
+                                    this.currentSound.forEach((sound) => {
+                                        if (stageSound.audioName == sound.name) {
+                                            stageSound.sound.offset = sound.time;
+                                        }
+                                    })
+
+                                    stageSound.sound.play();
+                                })
+                            }
+                        }
+                    })
                 } 
             })
         })
@@ -153,10 +207,12 @@ class WebGL {
 
         this.initCamera()
         this.initControls()
-        this.start()
+        this.initStages()
+
         this.events()
         this.statsUI()
-        this.initStages()
+
+        this.start()
     }
 }
 

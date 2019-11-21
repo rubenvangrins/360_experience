@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 
 // Objects
+import Audio from '../objects/audio'
 import Canvas from '../objects/canvas'
 import Sphere from '../objects/sphere'
 import Video from '../objects/video'
@@ -11,8 +12,9 @@ import Button from '../objects/button'
 import data from '../../../assets/json/data'
 
 class Stage {
-    constructor(scene, stageName) {
-        this.scene = scene;
+    constructor(scene, camera, stageName) {
+        this.scene = scene
+        this.camera = camera
         this.canvas = new Canvas(3840, 2160)
         this.stages = data.stages
         this.stageName = stageName
@@ -75,10 +77,33 @@ class Stage {
         })
     }
 
+    addAudio() {
+        this.stages.forEach((stage) => {
+            if(stage.name === this.stageName && typeof stage.sounds !== 'undefined') {
+                this.sounds = []
+                stage.sounds.forEach((sound) => {
+                    const id = new Audio({
+                        camera: this.camera,
+                        name: sound.name,
+                        audioSource: sound.source,
+                        x: sound.x,
+                        y: sound.y,
+                        z: sound.z,
+                        audioDistance: sound.audioDistance,
+                        datGUI: sound.datGUI                             
+                    })
+                    id.init()
+                    this.sounds.push(id)
+                })  
+            }
+        })
+    }    
+
     init() {
         this.canvas.create()
         this.createStage()
         this.addButtons()
+        this.addAudio()
     }
 }
 
