@@ -8,7 +8,7 @@ class Video{
         this.position = {
             x,
             y
-        };
+        }
         this.fps = 30
         this.raf = 0
         this.ctx = ctx

@@ -1,11 +1,6 @@
-body {
-    margin: 0;
-    padding: 0;
+// config
+@import './styles/config/reset.scss';
 
-    overflow: hidden;
-
-    canvas {
-        width: 100vw;
-        height: 100vh;
-    }
-}
+// components
+@import './components/logo/logo.scss';
+@import './components/products/product.scss';

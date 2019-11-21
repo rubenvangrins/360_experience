@@ -1,12 +1,11 @@
 // Styles
-import './index.scss';
+import './index.scss'
 
 // Components
 
 // WebGL
-import WebGL from './components/webgl/webgl';
+import WebGL from './components/webgl/webgl'
 
 // init WebGL
-let iWebGL = new WebGL();
-iWebGL.init();
-
+let iWebGL = new WebGL()
+iWebGL.init()

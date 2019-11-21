@@ -8,7 +8,3 @@
     <link rel="stylesheet" href="./build/css/style.css">
 </head>
 <body>
-    
-    <script src="./build/js/main.js"></script>
-</body>
-</html>

@@ -1,0 +1,62 @@
+.product__detail {
+    width: 100vw;
+    height: 100vh;
+
+    background: #1d1b1a;
+    
+    z-index: 99;
+
+    position: fixed;
+
+    display: none;
+
+    .product__close {
+        color: white
+    }
+
+    .container {
+        padding: 10vh 10vw;
+
+        display: flex;
+
+        align-items: center;
+
+        .product__image {
+            width: 30%;
+
+            height: calc(100vh - 20vh);
+
+            text-align: center;
+
+            img {
+                height: 100%
+            }
+        }
+
+        .product__content {
+            width: 70%;
+
+            text-align: center;
+
+            color: white;
+
+            padding: 0 5%;
+
+            .product__logo {
+                width: 20vw;
+
+                margin-bottom: 40px;
+            }
+
+            .product__quote {
+                margin-bottom: 40px;
+
+                font-size: 2vw;
+            }
+
+            .product__text {
+                font-size: 1.4vw;
+            }
+        }
+    }
+}
