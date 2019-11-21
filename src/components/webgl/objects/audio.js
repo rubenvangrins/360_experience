@@ -19,6 +19,7 @@ class Audio {
         this.listener = new THREE.AudioListener();
         this.camera.add(this.listener);
         this.sound = new THREE.PositionalAudio(this.listener);
+
     }
 
     loadAudio() {
@@ -26,18 +27,19 @@ class Audio {
         this.audioLoader.load(this.audioSource, (buffer) => {
             this.sound.setBuffer(buffer)
             this.sound.setRefDistance(this.audioDistance)
+            this.sound.loop = true
         })
     }
 
     createAudioSphere() {
-        this.sphere = new THREE.SphereGeometry( 1, 1, 1 );
+        this.sphere = new THREE.SphereGeometry(1, 32, 32)
         this.material = new THREE.MeshBasicMaterial({
-            alpha: true, 
-            opacity: 0
-        });
-        this.mesh = new THREE.Mesh(this.sphere, this.material );
+            wireframe: true,
+            color: 0xff0000
+        })
+        this.mesh = new THREE.Mesh(this.sphere, this.material)
 
-        this.mesh.name = this.audioName
+        this.sound.name = this.audioName
 
         this.mesh.userData = 'audio'
 
@@ -45,14 +47,16 @@ class Audio {
         this.mesh.position.y = this.y
         this.mesh.position.z = this.z        
 
-        this.mesh.add(this.sound);
+        this.mesh.add(this.sound)   
+
+        this.mesh.visible = false
     }
 
     addGUI() {
         if(this.datGUI === true) {
             this.gui = new dat.GUI()
 
-            this.material.wireframe = true
+            this.mesh.visible = true
 
             this.audioGUI = this.gui.addFolder(this.audioName)
 

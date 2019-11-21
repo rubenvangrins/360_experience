@@ -1,7 +1,7 @@
 {
     "stages": [
         {   
-            "id": 0,
+            "id":   0,
             "name": "courtyard",        
             "outerImage": "../../src/assets/img/beerze.jpg",
             "videos": [
@@ -96,19 +96,19 @@
                     "x": 71,
                     "y": 3,
                     "z": -68,
-                    "audioDistance": 1,
+                    "audioDistance": 2,
                     "datGUI": false     
                 },
                 {
                     "id": 1,
                     "name": "sound--table",
                     "source": "../../src/assets/audio/borreltafel.mp3",
-                    "x": 11,
-                    "y": -4,
-                    "z": 7,
-                    "audioDistance": 5,
+                    "x": 18,
+                    "y": -11,
+                    "z": 18,
+                    "audioDistance": 10,
                     "datGUI": false     
-                }                
+                }          
             ]   
         },
         {
@@ -147,19 +147,19 @@
                     "x": 3,
                     "y": 0,
                     "z": -2,
-                    "audioDistance": 1.25,
+                    "audioDistance": 0.1,
                     "datGUI": false     
                 },
                 {
                     "id": 1,
-                    "name": "sound--dj-birds",
-                    "source": "../../src/assets/audio/birds.mp3",
-                    "x": 0,
-                    "y": 10,
-                    "z": 0,
-                    "audioDistance": 10,
+                    "name": "sound--table",
+                    "source": "../../src/assets/audio/borreltafel.mp3",
+                    "x": -17,
+                    "y": -6,
+                    "z": -37,
+                    "audioDistance": 3,
                     "datGUI": false     
-                }                                
+                }                                              
             ] 
         },
         {

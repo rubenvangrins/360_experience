@@ -25,6 +25,7 @@ class WebGL {
 
         this.groups = []
         this.stages = []
+        this.currentSound = []
 
         this.activeGroup = null
         this.activeSound = null
@@ -76,7 +77,7 @@ class WebGL {
         })
 
         this.activeGroup = this.groups[0]
-        this.activeSound = this.stages[0]
+        this.activeStage = this.stages[0]
     }
 
     events() {
@@ -85,17 +86,12 @@ class WebGL {
         window.addEventListener('resize', this.onResize)
     }
 
-    startSounds = (e) => {
-        e.preventDefault()
-        if (this.activeGroup.name === this.activeSound.stageName) {
-            this.activeSound.sounds.forEach((sound) => {
-                sound.sound.play()
+    startSounds = () => {           
+        if (this.activeStage) {
+            this.activeStage.sounds.forEach((stageSound) => {
+                stageSound.sound.play()
             })
         }
-
-        this.startButton.style.display = "none"
-
-        
     }
 
     changeScene = (e) => {    
@@ -109,45 +105,54 @@ class WebGL {
         this.intersects = this.raycaster.intersectObjects(this.activeGroup.children)
 
         this.intersects.forEach((intersect) => {
-
             this.dataStages.forEach((dataStage) => {
-
                 if (intersect.object.userData === dataStage.name) {
-
                     this.activeGroup.visible = false
-
                     this.groups.forEach((group) => {
-
                         if (group.name === dataStage.name) {
-
                             group.visible = true
                             this.activeGroup = group
-
                         }
-
                     })
+
+                    if (this.activeStage) {
+                        this.activeStage.sounds.forEach((stageSound) => {
+                        
+                            this.soundName = stageSound.audioName
+                            this.currentTime = stageSound.sound.context.currentTime
+
+                        })
+                    }
 
                     this.stages.forEach((stage) => {
 
                         if (stage.sounds) {
 
-                            this.activeSound.sounds.forEach((sound) => {
+                            stage.sounds.forEach((stageSound) => {
+                                stageSound.sound.pause()
 
-                                sound.sound.pause()
-
+                                if (this.activeStage.stageName === stageSound.mesh.parent.name) {
+                                    this.soundMemory = {
+                                        name: stageSound.audioName,
+                                        time: stageSound.sound.context.currentTime
+                                    }
+                                    this.currentSound.push(this.soundMemory)
+                                }
                             })
 
-                            if (this.activeGroup.name === stage.stageName) {
+                            if (this.activeGroup.name === stage.stageName) {           
+                                stage.sounds.forEach((stageSound) => {
+                                    this.currentSound.forEach((sound) => {
+                                        if (stageSound.audioName == sound.name) {
+                                            stageSound.sound.offset = sound.time;
+                                        }
+                                    })
 
-                                stage.sounds.forEach((sound) => {
-
-                                    sound.sound.play()
-                                    this.activeSound = stage
-
+                                    stageSound.sound.play();
                                 })
                             }
                         }
-                    })                    
+                    })
                 } 
             })
         })
@@ -198,10 +203,12 @@ class WebGL {
 
         this.initCamera()
         this.initControls()
-        this.start()
+        this.initStages()
+
         this.events()
         this.statsUI()
-        this.initStages()
+
+        this.start()
     }
 }
 
