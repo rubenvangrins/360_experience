@@ -1,3 +1,3 @@
-    <script src="./build/js/main.js"></script>
+    <script defer src="./build/js/main.js"></script>
 </body>
 </html>

@@ -1,6 +1,9 @@
 // config
+@import './styles/config/base.scss';
 @import './styles/config/reset.scss';
+@import './styles/config/vars.scss';
 
 // components
+@import './components//loading/loading.scss';
 @import './components/logo/logo.scss';
 @import './components/products/product.scss';

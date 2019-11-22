@@ -1,7 +1,5 @@
 <section class="product__detail">
-    <div class="product__close">
-        close
-    </div>
+    <div class="product__close"></div>
     <div class="container">
         <div class="product__image">
             <img src="" alt="">

@@ -2,10 +2,13 @@
 import './index.scss'
 
 // Components
-
-// WebGL
+import Loading from './components/loading/loading'
 import WebGL from './components/webgl/webgl'
 
-// init WebGL
+// Loading
+let loading = new Loading()
+loading.init()
+
+// WebGL
 let iWebGL = new WebGL()
 iWebGL.init()
