@@ -1,8 +1,8 @@
 import * as THREE from 'three'
 import * as OrbitControls from 'three-orbitcontrols'
 import Stats from 'stats.js'
-import { TweenMax, TimelineMax, Expo } from 'gsap';`
-`
+import { TweenMax, TimelineMax, Expo } from 'gsap'
+
 // scenes
 import Stage from './stages/stage'
 
@@ -93,7 +93,7 @@ class WebGL {
     }
 
     events() {
-        this.startButton.addEventListener('click', this.startSounds)
+        // this.startButton.addEventListener('click', this.startSounds)
         window.addEventListener('click', this.changeScene)
         window.addEventListener('click', this.openProduct)
         window.addEventListener('resize', this.onResize)
@@ -141,6 +141,10 @@ class WebGL {
         })
     }
 
+    groupVisibilityFalse = () => {                       
+        
+    }
+
     changeScene = (e) => {    
         e.preventDefault()
 
@@ -152,70 +156,82 @@ class WebGL {
         this.intersects = this.raycaster.intersectObjects(this.activeGroup.children)
 
         this.intersects.forEach((intersect) => {
-            this.dataStages.forEach((dataStage) => {
-                if (intersect.object.userData === dataStage.name) { 
 
-                    /* Change the stage */
-                    this.activeGroup.children.forEach((child) => {
-                        TweenMax.to(child.material, .5, {
-                            opacity: 0,
-                            onComplete: () => {
-                                this.activeGroup.visible = false 
-                            }
-                        })
-                    })
+            if(intersect.object.name.startsWith("button--")) {
+                let objectX = intersect.object.position.x,
+                    objectY = intersect.object.position.y,
+                    objectZ = intersect.object.position.z
 
-                    this.groups.forEach((group) => {
-                        if (group.name === dataStage.name) {
-                            group.visible = true
+                this.dataStages.forEach((dataStage) => {
+                    if (intersect.object.userData === dataStage.name) {
 
-                            group.children.forEach((child) => {
-                                TweenMax.to(child.material, .5, {
-                                    opacity: 1,
-                                })
-                            })  
+                        /* Change stage */
+                        if (intersect.object.userData === dataStage.name) { 
 
-                            this.activeGroup = group
+                            this.activeGroup.children.forEach((child) => {
+                                child.material.opacity = 0
+                                this.activeGroup.visible = false
+                            })                       
 
-                        }
-                    })
+                            this.groups.forEach((group) => {
+                                if (group.name === dataStage.name) {
+                                    group.visible = true
 
-                    /* Audio change and/or repeat from (current) TimeStamp */
-                    if (this.activeStage) {
-                        this.activeStage.sounds.forEach((stageSound) => {
-                            this.soundName = stageSound.audioName
-                            this.currentTime = stageSound.sound.context.currentTime
-                        })
-                    }
+                                    TweenMax.from(group.position, .4, {
+                                        x: objectX * 1.05,
+                                        y: objectY * 1.05,
+                                        z: objectZ * 1.05
+                                    })
 
-                    this.stages.forEach((stage) => {
-                        if (stage.sounds) {
-                            stage.sounds.forEach((stageSound) => {
-                                stageSound.sound.pause()
-                                if (this.activeStage.stageName === stageSound.mesh.parent.name) {
-                                    this.soundMemory = {
-                                        name: stageSound.audioName,
-                                        time: stageSound.sound.context.currentTime
-                                    }
-                                    this.currentSound.push(this.soundMemory)
+                                    group.children.forEach((child) => {                              
+                                        TweenMax.to(child.material, .2, {
+                                            opacity: 1,
+                                        })
+                                    })  
+
+                                    this.activeGroup = group
                                 }
                             })
 
-                            if (this.activeGroup.name === stage.stageName) {           
-                                stage.sounds.forEach((stageSound) => {
-                                    this.currentSound.forEach((sound) => {
-                                        if (stageSound.audioName == sound.name) {
-                                            stageSound.sound.offset = sound.time
-                                        }
-                                    })
+                        } 
 
-                                    stageSound.sound.play()
-                                })
-                            }
+                        /* Audio change and/or repeat from (current) TimeStamp */
+                        if (this.activeStage) {
+                            this.activeStage.sounds.forEach((stageSound) => {
+                                this.soundName = stageSound.audioName
+                                this.currentTime = stageSound.sound.context.currentTime
+                            })
                         }
-                    })
-                } 
-            })
+
+                        this.stages.forEach((stage) => {
+                            if (stage.sounds) {
+                                stage.sounds.forEach((stageSound) => {
+                                    stageSound.sound.pause()
+                                    if (this.activeStage.stageName === stageSound.mesh.parent.name) {
+                                        this.soundMemory = {
+                                            name: stageSound.audioName,
+                                            time: stageSound.sound.context.currentTime
+                                        }
+                                        this.currentSound.push(this.soundMemory)
+                                    }
+                                })
+
+                                if (this.activeGroup.name === stage.stageName) {           
+                                    stage.sounds.forEach((stageSound) => {
+                                        this.currentSound.forEach((sound) => {
+                                            if (stageSound.audioName == sound.name) {
+                                                stageSound.sound.offset = sound.time
+                                            }
+                                        })
+
+                                        stageSound.sound.play()
+                                    })
+                                }
+                            }
+                        })
+                    } 
+                })
+            }
         })
     }
 
