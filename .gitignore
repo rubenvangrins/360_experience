@@ -1,12 +1,7 @@
-// Folders
+# Folders
 node_modules
-src/assets/audio
-src/assets/fonts
-src/assets/img
-src/assets/video
-src/assets/stages
-src/assets/svg
+src/assets/*
 build
 
-// Files
+# Files
 yarn.lock
