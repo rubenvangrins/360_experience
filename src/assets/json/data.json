@@ -3,12 +3,12 @@
         {   
             "id":   0,
             "name": "courtyard",        
-            "outerImage": "../../src/assets/img/beerze.jpg",
+            "outerImage": "../../src/assets/stages/courtyard/courtyard.jpg",
             "videos": [
                 {
                     "id": 0,
                     "name": "jasperIvo",
-                    "url": "../../src/assets/video/jasper_ivo.mp4",
+                    "url": "../../src/assets/stages/courtyard/1.mp4",
                     "x": 2077,
                     "y": 1027,
                     "width": 174,
@@ -17,7 +17,7 @@
                 {
                     "id": 1,
                     "name": "djBooth",
-                    "url": "../../src/assets/video/dj.mp4",
+                    "url": "../../src/assets/stages/courtyard/2.mp4",
                     "x": 3274, 
                     "y": 947.5,
                     "width": 170,
@@ -26,7 +26,7 @@
                 {
                     "id": 2,
                     "name": "tableSmall",
-                    "url": "../../src/assets/video/borrel_tafel_small.mp4",
+                    "url": "../../src/assets/stages/courtyard/3.mp4",
                     "x": 3489,
                     "y": 983,
                     "width": 370,
@@ -35,7 +35,7 @@
                 {
                     "id": 3,
                     "name": "tableBig",
-                    "url": "../../src/assets/video/borrel_tafel_big.mp4",
+                    "url": "../../src/assets/stages/courtyard/4.mp4",
                     "x": 0,
                     "y": 983,
                     "width": 960,
@@ -78,6 +78,28 @@
                 },
                 {
                     "id": 3,
+                    "name": "button--bbq",
+                    "linkTo": "bbq",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": 75,
+                    "y": 0,
+                    "z": 13,
+                    "datGUI": false
+                },
+                {
+                    "id": 4,
+                    "name": "button--motor",
+                    "linkTo": "motor",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": -79,
+                    "y": -6,
+                    "z": 40,
+                    "datGUI": false
+                },
+                {
+                    "id": 5,
                     "name": "button--product",
                     "linkTo": "bier-5-5",
                     "type": "product",
@@ -88,7 +110,7 @@
                     "datGUI": false
                 },
                 {
-                    "id": 4,
+                    "id": 6,
                     "name": "button--product",
                     "linkTo": "bier-7-5",
                     "type": "product",
@@ -125,7 +147,36 @@
         {
             "id": 1,
             "name": "dj-booth",        
-            "outerImage": "../../src/assets/img/beerze_dj.jpg",
+            "outerImage": "../../src/assets/stages/dj-booth/beerze_dj.jpg",
+            "videos": [
+                {
+                    "id": 0,
+                    "name": "djLeft",
+                    "url": "../../src/assets/stages/dj-booth/1.mp4",
+                    "x": 0,
+                    "y": 851,
+                    "width": 606,
+                    "height": 1100
+                },
+                {
+                    "id": 1,
+                    "name": "djRight",
+                    "url": "../../src/assets/stages/dj-booth/2.mp4",
+                    "x": 2796,
+                    "y": 851,
+                    "width": 1044,
+                    "height": 1100
+                },
+                {
+                    "id": 2,
+                    "name": "view",
+                    "url": "../../src/assets/stages/dj-booth/3.mp4",
+                    "x": 1691,
+                    "y": 794,
+                    "width": 1100,
+                    "height": 550
+                }                         
+            ],   
             "buttons": [
                 {
                     "id": 0,
@@ -148,6 +199,17 @@
                     "y": 0,
                     "z": -40,
                     "datGUI": false
+                },
+                {
+                    "id": 2,
+                    "name": "button--bbq",
+                    "linkTo": "bbq",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": -66,
+                    "y": -6,
+                    "z": 9,
+                    "datGUI": false
                 }
             ],
             "sounds": [
@@ -160,23 +222,42 @@
                     "z": -2,
                     "audioDistance": 0.1,
                     "datGUI": false     
-                },
-                {
-                    "id": 1,
-                    "name": "sound--table",
-                    "source": "../../src/assets/audio/borreltafel.mp3",
-                    "x": -17,
-                    "y": -6,
-                    "z": -37,
-                    "audioDistance": 3,
-                    "datGUI": false     
-                }                                              
+                }                                             
             ] 
         },
         {
             "id": 2,
             "name": "bar",
-            "outerImage": "../../src/assets/img/beerze_bar.jpg",
+            "outerImage": "../../src/assets/stages/bar/beerze_bar.jpg",
+            "videos": [
+                {
+                    "id": 0,
+                    "name": "bartenderLeft",
+                    "url": "../../src/assets/stages/bar/1.mp4",
+                    "x": 0,
+                    "y": 828,
+                    "width": 335,
+                    "height": 701
+                },
+                {
+                    "id": 1,
+                    "name": "bartenderRight",
+                    "url": "../../src/assets/stages/bar/2.mp4",
+                    "x": 3376,
+                    "y": 828,
+                    "width": 465,
+                    "height": 701
+                },
+                {
+                    "id": 2,
+                    "name": "view",
+                    "url": "../../src/assets/stages/bar/3.mp4",
+                    "x": 1651,
+                    "y": 912,
+                    "width": 1200,
+                    "height": 400
+                }
+            ],
             "buttons": [
                 {
                     "id": 0,
@@ -199,13 +280,64 @@
                     "y": 0,
                     "z": -68,
                     "datGUI": false
-                }
+                },
+                {
+                    "id": 2,
+                    "name": "button--bbq",
+                    "linkTo": "bbq",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": -11,
+                    "y": 0,
+                    "z": -75,
+                    "datGUI": false
+                },
+                {
+                    "id": 3,
+                    "name": "button--motor",
+                    "linkTo": "motor",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": -75,
+                    "y": -4,
+                    "z": 60,
+                    "datGUI": false
+                }                
             ]
         },
         {
             "id": 3,
             "name": "jasper-ivo",
-            "outerImage": "../../src/assets/img/beerze_jasper-ivo.jpg",
+            "outerImage": "../../src/assets/stages/jasper-ivo/beerze_jasper-ivo.jpg",
+            "videos": [
+                {
+                    "id": 0,
+                    "name": "jasperIvo",
+                    "url": "../../src/assets/stages/jasper-ivo/1.mp4",
+                    "x": 2206,
+                    "y": 480,
+                    "width": 1200,
+                    "height": 1200
+                },
+                {
+                    "id": 1,
+                    "name": "viewLeft",
+                    "url": "../../src/assets/stages/jasper-ivo/2.mp4",
+                    "x": 0,
+                    "y": 985,
+                    "width": 330,
+                    "height": 250
+                },
+                {
+                    "id": 2,
+                    "name": "viewRight",
+                    "url": "../../src/assets/stages/jasper-ivo/3.mp4",
+                    "x": 3670,
+                    "y": 985,
+                    "width": 170,
+                    "height": 250
+                }                         
+            ],            
             "buttons": [
                 {
                     "id": 0,
@@ -217,9 +349,158 @@
                     "y": -6,
                     "z": 49,
                     "datGUI": false
+                },
+                {
+                    "id": 1,
+                    "name": "button--motor",
+                    "linkTo": "motor",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": -17,
+                    "y": -6,
+                    "z": 82,
+                    "datGUI": false
+                },
+                {
+                    "id": 2,
+                    "name": "button--dj-booth",
+                    "linkTo": "dj-booth",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": 95,
+                    "y": -6,
+                    "z": -17,
+                    "datGUI": false
+                }                 
+            ]
+        },
+        {
+            "id": 4,
+            "name": "bbq",
+            "outerImage": "../../src/assets/stages/bbq/bbq.jpg",
+            "videos": [
+                {
+                    "id": 0,
+                    "name": "bbqLeft",
+                    "url": "../../src/assets/stages/bbq/1.mp4",
+                    "x": 0,
+                    "y": 732,
+                    "width": 1366,
+                    "height": 1424
+                },
+                {
+                    "id": 1,
+                    "name": "bbqRight",
+                    "url": "../../src/assets/stages/bbq/4.mp4",
+                    "x": 2046,
+                    "y": 732,
+                    "width": 1795,
+                    "height": 1424
+                },
+                {
+                    "id": 2,
+                    "name": "view",
+                    "url": "../../src/assets/stages/bbq/3.mp4",
+                    "x": 1633,
+                    "y": 916,
+                    "width": 436,
+                    "height": 400
+                }                         
+            ],            
+            "buttons": [
+                {
+                    "id": 0,
+                    "name": "button--courtyard",
+                    "linkTo": "courtyard",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": -88,
+                    "y": 0,
+                    "z": 10,
+                    "datGUI": false
+                },
+                {
+                    "id": 1,
+                    "name": "button--bar",
+                    "linkTo": "bar",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": -37,
+                    "y": -6,
+                    "z": 58,
+                    "datGUI": false
+                }                
+            ]
+        },
+        {
+            "id": 5,
+            "name": "motor",
+            "outerImage": "../../src/assets/stages/motor/motor.jpg",
+            "videos": [
+                {
+                    "id": 0,
+                    "name": "viewLeft",
+                    "url": "../../src/assets/stages/motor/1.mp4",
+                    "x": 0,
+                    "y": 1023,
+                    "width": 413,
+                    "height": 160
+                },
+                {
+                    "id": 1,
+                    "name": "viewRight",
+                    "url": "../../src/assets/stages/motor/2.mp4",
+                    "x": 3554,
+                    "y": 1023,
+                    "width": 286,
+                    "height": 160
+                },
+                {
+                    "id": 2,
+                    "name": "view",
+                    "url": "../../src/assets/stages/motor/3.mp4",
+                    "x": 3006,
+                    "y": 930,
+                    "width": 224,
+                    "height": 300
+                }                         
+            ],            
+            "buttons": [
+                {
+                    "id": 0,
+                    "name": "button--courtyard",
+                    "linkTo": "courtyard",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": 71,
+                    "y": -2,
+                    "z": -9,
+                    "datGUI": false
+                },
+                {
+                    "id": 1,
+                    "name": "button--jasper-ivo",
+                    "linkTo": "jasper-ivo",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": 38,
+                    "y": 2,
+                    "z": -88,
+                    "datGUI": false
+                },
+                {
+                    "id": 2,
+                    "name": "button--bar",
+                    "linkTo": "bar",
+                    "type": "nav",
+                    "radius": 1,
+                    "x": 84,
+                    "y": 0,
+                    "z": 51,
+                    "datGUI": false
                 }
             ]
-        }
+        }        
     ],
     "products" : 
     [

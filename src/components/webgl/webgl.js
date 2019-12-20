@@ -177,10 +177,11 @@ class WebGL {
                                 if (group.name === dataStage.name) {
                                     group.visible = true
 
-                                    TweenMax.from(group.position, .4, {
-                                        x: objectX * 1.05,
-                                        y: objectY * 1.05,
-                                        z: objectZ * 1.05
+                                    TweenMax.from(group.position, .2, {
+                                        x: objectX / 1.8,
+                                        y: objectY / 1.8,
+                                        z: objectZ / 1.8,
+                                        ease: Expo.easeOut
                                     })
 
                                     group.children.forEach((child) => {                              
