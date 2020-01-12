@@ -93,10 +93,13 @@ class WebGL {
     }
 
     events() {
-        // this.startButton.addEventListener('click', this.startSounds)
-        window.addEventListener('click', this.changeScene)
+        this.startButton.addEventListener('click', this.startSounds)
         window.addEventListener('click', this.openProduct)
+        window.addEventListener('click', this.changeScene)
         window.addEventListener('resize', this.onResize)
+        window.addEventListener('mousedown', this.cursorDown)
+        window.addEventListener('mouseup', this.cursorUp)
+        // window.addEventListener('mouseover', this.cursorHover)
     }
 
     startSounds = () => {           
@@ -139,10 +142,6 @@ class WebGL {
 
             }
         })
-    }
-
-    groupVisibilityFalse = () => {                       
-        
     }
 
     changeScene = (e) => {    
@@ -242,6 +241,33 @@ class WebGL {
 
         this.renderer.setSize(window.innerWidth, window.innerHeight)
     }
+
+    cursorDown = (e) => {
+        e.preventDefault()
+        document.querySelector('body').style.cursor = 'grabbing'    
+    }
+
+    cursorUp = (e) => {
+        e.preventDefault()
+        document.querySelector('body').style.cursor = 'grab'    
+    }
+
+    // cursorHover = (e) => {
+    //     e.preventDefault()
+
+    //     this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+    //     this.mouse.y = - (e.clientY / window.innerHeight) * 2 + 1
+
+    //     this.raycaster.setFromCamera(this.mouse, this.camera)
+
+    //     this.intersects = this.raycaster.intersectObjects(this.activeGroup.children)
+
+    //     this.intersects.forEach((intersect) => {
+    //         if(intersect.object.name.startsWith("button--")) {
+    //             console.log('huts')
+    //         }
+    //     })
+    // }
 
     // statsUI = () => {
     //     this.stats.dom.style.top = null

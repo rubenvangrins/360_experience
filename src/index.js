@@ -6,8 +6,8 @@ import Loading from './components/loading/loading'
 import WebGL from './components/webgl/webgl'
 
 // Loading
-// let loading = new Loading()
-// loading.init()
+let loading = new Loading()
+loading.init()
 
 // WebGL
 let iWebGL = new WebGL()
