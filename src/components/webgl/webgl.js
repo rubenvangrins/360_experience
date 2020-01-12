@@ -244,12 +244,12 @@ class WebGL {
 
     cursorDown = (e) => {
         e.preventDefault()
-        document.querySelector('body').style.cursor = 'grabbing'    
+        document.querySelector('body').style.cursor = 'grab'    
     }
 
     cursorUp = (e) => {
         e.preventDefault()
-        document.querySelector('body').style.cursor = 'grab'    
+        document.querySelector('body').style.cursor = 'grabbing'    
     }
 
     // cursorHover = (e) => {
