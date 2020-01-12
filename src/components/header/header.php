@@ -13,6 +13,6 @@
 <body>
 
     <?php 
-        // require __DIR__ . "/../loading/loading.php";
+        require __DIR__ . "/../loading/loading.php";
         require __DIR__ . "/../products/product.php"; 
     ?>
