@@ -73,15 +73,9 @@ class Button {
         }
     }
 
-    // buttonPulse() {
-    //     TweenMax.to(this.mesh.scale, 1, {x:1.2, y:1.2, z:1.2, repeat:-1, yoyo:true})
-    //     TweenMax.from(this.mesh.material, 1, {opacity: .8, repeat: -1, yoyo: true}) 
-    // }
-
     init() {
         this.createButton()
         this.addGUI()
-        // this.buttonPulse()
     }
 }
 
