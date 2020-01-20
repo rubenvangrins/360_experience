@@ -1,14 +1,13 @@
 import * as THREE from 'three'
 import * as OrbitControls from 'three-orbitcontrols'
 import Stats from 'stats.js'
-import TweenMax from 'gsap'
+import { TweenMax, TimelineMax, Expo } from 'gsap'
 
 // scenes
 import Stage from './stages/stage'
 
 // json
 import data from '../../assets/json/data'
-
 
 // Products
 import Products from '../products/product'
@@ -32,7 +31,7 @@ class WebGL {
         this.stages = []
         this.currentSound = []
 
-        this.productDetail = document.querySelector('.product__detail')
+        this.startButton = document.querySelector('.loading--button')
 
         this.activeGroup = null
         this.activeSound = null
@@ -42,7 +41,7 @@ class WebGL {
         this.raycaster = new THREE.Raycaster()
         this.mouse = new THREE.Vector2()
 
-        this.startButton = document.querySelector('#button')
+        this.tl = new TimelineMax({ paused: true })
     }
 
     initCamera() {
@@ -54,21 +53,30 @@ class WebGL {
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
 
         this.controls.enableDamping = true
-        this.controls.dampingFactor = .3
+        this.controls.dampingFactor = .5
+
+        this.controls.rotateSpeed = -.3
     }
 
     initStages() {
         this.dataStages.forEach((stage) => {
-            const id = new Stage(this.scene, this.camera, stage.name)
+            const id = new Stage({
+                scene: this.scene, 
+                camera: this.camera, 
+                stageName: stage.name,
+                group: this.group
+            })
+
             id.init()
 
-            this.group = new THREE.Group()
+            this.group = new THREE.Object3D()
         
             this.group.add(id.sphere.mesh)
 
-            if (id.buttons) {
-                id.buttons.forEach((button) => this.group.add(button.mesh))
+            if (id.markers) {
+                id.markers.forEach((marker) => this.group.add(marker.marker))
             }
+
 
             if (id.sounds) {
                 id.sounds.forEach((sound) => this.group.add(sound.mesh))
@@ -78,6 +86,10 @@ class WebGL {
 
             if (stage.id !== 0) {
                 this.group.visible = false
+
+                this.group.children.forEach((child) => {
+                    child.material.opacity = 0
+                })
             }
 
             this.groups.push(this.group)
@@ -90,25 +102,34 @@ class WebGL {
     }
 
     events() {
-        this.startButton.addEventListener('click', this.startSounds)
-        window.addEventListener('click', this.changeScene)
+        // this.startButton.addEventListener('click', this.startSounds)
         window.addEventListener('click', this.openProduct)
+        window.addEventListener('click', this.changeScene)
+
         window.addEventListener('resize', this.onResize)
+
+        window.addEventListener('mousedown', this.cursorDown)
+        window.addEventListener('mouseup', this.cursorUp)
+
+        window.addEventListener('mousemove', this.onMouseMove)
     }
 
-    // openProduct() {
-    //     this.dataProducts.forEach((product) => {
-    //         const id = new Products({
-    //             productName: product.productName,
-    //             productImage: product.productImage,
-    //             productLabel: product.productLabel,
-    //             productQuote: product.productQuote,
-    //             productcontent: product.productcontent       
-    //         })
-    //         id.create()
-    //     })
+    onMouseMove = (e) => {
+        e.preventDefault()
 
-    // }
+        this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+        this.mouse.y = - (e.clientY / window.innerHeight) * 2 + 1
+
+        this.raycaster.setFromCamera(this.mouse, this.camera)
+
+        this.intersects = this.raycaster.intersectObjects(this.activeGroup.children)
+
+        this.intersects.forEach((intersect) => {
+            if(intersect.object.name.startsWith("button--")){
+                document.querySelector('body').style.cursor = 'pointer'  
+            }
+        })
+    }
 
     startSounds = () => {           
         if (this.activeStage) {
@@ -129,7 +150,7 @@ class WebGL {
         this.intersects = this.raycaster.intersectObjects(this.activeGroup.children)   
         
         this.intersects.forEach((intersect) => {
-            if (intersect.object.name === 'button--product') {    
+            if (intersect.object.type === 'product') {    
 
                 this.dataProducts.forEach((product) => {
 
@@ -143,10 +164,7 @@ class WebGL {
                             productcontent: product.productcontent       
                         })
 
-                        id.create()       
-                        
-                        this.productDetail.style.display = 'block'
-
+                        id.init()
                     }
 
                 })
@@ -166,56 +184,86 @@ class WebGL {
         this.intersects = this.raycaster.intersectObjects(this.activeGroup.children)
 
         this.intersects.forEach((intersect) => {
-            this.dataStages.forEach((dataStage) => {
-                if (intersect.object.userData === dataStage.name) {
-                    this.activeGroup.visible = false
-                    this.groups.forEach((group) => {
-                        if (group.name === dataStage.name) {
-                            group.visible = true
-                            this.activeGroup = group
-                        }
-                    })
 
-                    if (this.activeStage) {
-                        this.activeStage.sounds.forEach((stageSound) => {
-                        
-                            this.soundName = stageSound.audioName
-                            this.currentTime = stageSound.sound.context.currentTime
+            if(intersect.object.type === "navigation") {
 
-                        })
-                    }
+                let objectX = intersect.object.position.x,
+                    objectY = intersect.object.position.y,
+                    objectZ = intersect.object.position.z
 
-                    this.stages.forEach((stage) => {
+                this.dataStages.forEach((dataStage) => {
+                    console.log(intersect.object)
 
-                        if (stage.sounds) {
+                    if (intersect.object.userData === dataStage.name) {
 
-                            stage.sounds.forEach((stageSound) => {
-                                stageSound.sound.pause()
+                        /* Change stage */
+                        if (intersect.object.userData === dataStage.name) { 
 
-                                if (this.activeStage.stageName === stageSound.mesh.parent.name) {
-                                    this.soundMemory = {
-                                        name: stageSound.audioName,
-                                        time: stageSound.sound.context.currentTime
-                                    }
-                                    this.currentSound.push(this.soundMemory)
+                            this.activeGroup.children.forEach((child) => {
+                                child.material.opacity = 0
+                                this.activeGroup.visible = false
+                            })                       
+
+                            this.groups.forEach((group) => {
+                                if (group.name === dataStage.name) {
+                                    group.visible = true
+
+                                    TweenMax.from(group.position, .2, {
+                                        x: objectX / 1.8,
+                                        y: objectY / 1.8,
+                                        z: objectZ / 1.8,
+                                        ease: Expo.easeOut
+                                    })
+
+                                    group.children.forEach((child) => {                              
+                                        TweenMax.to(child.material, .2, {
+                                            opacity: 1,
+                                        })
+                                    })  
+
+                                    this.activeGroup = group
                                 }
                             })
 
-                            if (this.activeGroup.name === stage.stageName) {           
-                                stage.sounds.forEach((stageSound) => {
-                                    this.currentSound.forEach((sound) => {
-                                        if (stageSound.audioName == sound.name) {
-                                            stageSound.sound.offset = sound.time
-                                        }
-                                    })
+                        } 
 
-                                    stageSound.sound.play()
-                                })
-                            }
+                        /* Audio change and/or repeat from (current) TimeStamp */
+                        if (this.activeStage) {
+                            this.activeStage.sounds.forEach((stageSound) => {
+                                this.soundName = stageSound.audioName
+                                this.currentTime = stageSound.sound.context.currentTime
+                            })
                         }
-                    })
-                } 
-            })
+
+                        this.stages.forEach((stage) => {
+                            if (stage.sounds) {
+                                stage.sounds.forEach((stageSound) => {
+                                    stageSound.sound.pause()
+                                    if (this.activeStage.stageName === stageSound.mesh.parent.name) {
+                                        this.soundMemory = {
+                                            name: stageSound.audioName,
+                                            time: stageSound.sound.context.currentTime
+                                        }
+                                        this.currentSound.push(this.soundMemory)
+                                    }
+                                })
+
+                                if (this.activeGroup.name === stage.stageName) {           
+                                    stage.sounds.forEach((stageSound) => {
+                                        this.currentSound.forEach((sound) => {
+                                            if (stageSound.audioName == sound.name) {
+                                                stageSound.sound.offset = sound.time
+                                            }
+                                        })
+
+                                        stageSound.sound.play()
+                                    })
+                                }
+                            }
+                        })
+                    } 
+                })
+            }
         })
     }
 
@@ -224,6 +272,16 @@ class WebGL {
         this.camera.updateProjectionMatrix()
 
         this.renderer.setSize(window.innerWidth, window.innerHeight)
+    }
+
+    cursorDown = (e) => {
+        e.preventDefault()
+        document.querySelector('body').style.cursor = 'grabbing'    
+    }
+
+    cursorUp = (e) => {
+        e.preventDefault()
+        document.querySelector('body').style.cursor = 'grab'    
     }
 
     statsUI = () => {

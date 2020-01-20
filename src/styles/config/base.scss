@@ -1,0 +1,32 @@
+body {
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+
+    background: var(--color-black);
+
+    cursor: grab;
+}
+
+canvas {
+    width: 100vw;
+    height: 100vh;
+}
+
+button {
+    background: none;
+
+    font-family: var(--font-f-base);
+    font-size: var(--font-s-button);
+    letter-spacing: var(--ls-button);
+
+    color: var(--color-white);
+    text-transform: uppercase;
+
+    border: 1px solid white;
+
+    padding: 15px 30px;
+    
+    cursor: pointer;
+}

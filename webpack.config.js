@@ -18,7 +18,7 @@ module.exports = {
             test: /\.js$/,
             exclude: /node_modules/,
             use: 'babel-loader'
-        },            
+        },           
         {
             test: /\.(s*)css$/,
             use: [
@@ -28,7 +28,18 @@ module.exports = {
               },
               'sass-loader'
             ]
-        }             
+        },
+        {
+          test: /\.(png|svg|jpg)$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '/img/[name].[ext]'
+              }
+            }
+          ]
+        }            
     ]
   },  
   plugins: [

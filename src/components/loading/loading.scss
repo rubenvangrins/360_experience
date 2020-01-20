@@ -1,0 +1,32 @@
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: var(--color-black);
+
+    z-index: 2;
+
+    display: flex;
+
+    .loading--inner {
+        opacity: 0;
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        align-content: center;
+
+        .logo {
+                width: 20vw;
+
+                padding: 0 40vw;
+
+                margin-bottom: 40px;
+            }
+        }
+}

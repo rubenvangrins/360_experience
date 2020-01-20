@@ -14,7 +14,7 @@ class Sphere {
             transparent: true
         })
 
-        this.geometry = new THREE.SphereGeometry(100, 32, 32).scale(-1, 1, 1)
+        this.geometry = new THREE.SphereGeometry(10, 32, 32).scale(-1, 1, 1)
 
         this.mesh = new THREE.Mesh(this.geometry, this.material)
     }
