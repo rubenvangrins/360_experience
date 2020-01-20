@@ -53,21 +53,30 @@ class WebGL {
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
 
         this.controls.enableDamping = true
-        this.controls.dampingFactor = .3
+        this.controls.dampingFactor = .5
+
+        this.controls.rotateSpeed = -.3
     }
 
     initStages() {
         this.dataStages.forEach((stage) => {
-            const id = new Stage(this.scene, this.camera, stage.name)
+            const id = new Stage({
+                scene: this.scene, 
+                camera: this.camera, 
+                stageName: stage.name,
+                group: this.group
+            })
+
             id.init()
 
-            this.group = new THREE.Group()
+            this.group = new THREE.Object3D()
         
             this.group.add(id.sphere.mesh)
 
-            if (id.buttons) {
-                id.buttons.forEach((button) => this.group.add(button.mesh))
+            if (id.markers) {
+                id.markers.forEach((marker) => this.group.add(marker.marker))
             }
+
 
             if (id.sounds) {
                 id.sounds.forEach((sound) => this.group.add(sound.mesh))
@@ -93,13 +102,33 @@ class WebGL {
     }
 
     events() {
-        this.startButton.addEventListener('click', this.startSounds)
+        // this.startButton.addEventListener('click', this.startSounds)
         window.addEventListener('click', this.openProduct)
         window.addEventListener('click', this.changeScene)
+
         window.addEventListener('resize', this.onResize)
+
         window.addEventListener('mousedown', this.cursorDown)
         window.addEventListener('mouseup', this.cursorUp)
-        // window.addEventListener('mouseover', this.cursorHover)
+
+        window.addEventListener('mousemove', this.onMouseMove)
+    }
+
+    onMouseMove = (e) => {
+        e.preventDefault()
+
+        this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+        this.mouse.y = - (e.clientY / window.innerHeight) * 2 + 1
+
+        this.raycaster.setFromCamera(this.mouse, this.camera)
+
+        this.intersects = this.raycaster.intersectObjects(this.activeGroup.children)
+
+        this.intersects.forEach((intersect) => {
+            if(intersect.object.name.startsWith("button--")){
+                document.querySelector('body').style.cursor = 'pointer'  
+            }
+        })
     }
 
     startSounds = () => {           
@@ -121,7 +150,7 @@ class WebGL {
         this.intersects = this.raycaster.intersectObjects(this.activeGroup.children)   
         
         this.intersects.forEach((intersect) => {
-            if (intersect.object.name === 'button--product') {    
+            if (intersect.object.type === 'product') {    
 
                 this.dataProducts.forEach((product) => {
 
@@ -156,12 +185,15 @@ class WebGL {
 
         this.intersects.forEach((intersect) => {
 
-            if(intersect.object.name.startsWith("button--")) {
+            if(intersect.object.type === "navigation") {
+
                 let objectX = intersect.object.position.x,
                     objectY = intersect.object.position.y,
                     objectZ = intersect.object.position.z
 
                 this.dataStages.forEach((dataStage) => {
+                    console.log(intersect.object)
+
                     if (intersect.object.userData === dataStage.name) {
 
                         /* Change stage */
@@ -244,35 +276,18 @@ class WebGL {
 
     cursorDown = (e) => {
         e.preventDefault()
-        document.querySelector('body').style.cursor = 'grab'    
+        document.querySelector('body').style.cursor = 'grabbing'    
     }
 
     cursorUp = (e) => {
         e.preventDefault()
-        document.querySelector('body').style.cursor = 'grabbing'    
+        document.querySelector('body').style.cursor = 'grab'    
     }
 
-    // cursorHover = (e) => {
-    //     e.preventDefault()
-
-    //     this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1
-    //     this.mouse.y = - (e.clientY / window.innerHeight) * 2 + 1
-
-    //     this.raycaster.setFromCamera(this.mouse, this.camera)
-
-    //     this.intersects = this.raycaster.intersectObjects(this.activeGroup.children)
-
-    //     this.intersects.forEach((intersect) => {
-    //         if(intersect.object.name.startsWith("button--")) {
-    //             console.log('huts')
-    //         }
-    //     })
-    // }
-
-    // statsUI = () => {
-    //     this.stats.dom.style.top = null
-    //     this.stats.dom.style.bottom = 0
-    // }
+    statsUI = () => {
+        this.stats.dom.style.top = null
+        this.stats.dom.style.bottom = 0
+    }
 
     render = () => {
         this.raf = undefined
@@ -281,7 +296,7 @@ class WebGL {
     
         this.start()
 
-        // this.stats.update()
+        this.stats.update()
         this.controls.update()
     }
 
@@ -303,14 +318,14 @@ class WebGL {
         this.renderer.setSize(window.innerWidth, window.innerHeight)
 
         document.body.appendChild(this.renderer.domElement)
-        // document.body.appendChild(this.stats.dom)
+        document.body.appendChild(this.stats.dom)
 
         this.initCamera()
         this.initControls()
         this.initStages()
 
         this.events()
-        // this.statsUI()
+        this.statsUI()
 
         this.start()
     }

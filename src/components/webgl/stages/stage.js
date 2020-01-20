@@ -6,18 +6,20 @@ import Canvas from '../objects/canvas'
 import Sphere from '../objects/sphere'
 import Video from '../objects/video'
 import panoramicImage from '../objects/image'
-import Button from '../objects/button'
+import Marker from '../objects/marker'
 
 // json
 import data from '../../../assets/json/data'
 
 class Stage {
-    constructor(scene, camera, stageName) {
-        this.scene = scene
-        this.camera = camera
-        this.canvas = new Canvas(3840, 2160)
+    constructor(_options) {
+        this.scene = _options.scene
+        this.camera = _options.camera
+        this.stageName = _options.stageName
+        this.group = _options.group
+
+        this.canvas = new Canvas(7680, 3840)
         this.stages = data.stages
-        this.stageName = stageName
     }
 
     fillCanvas() {
@@ -54,25 +56,24 @@ class Stage {
         this.sphere.create()
     }
 
-    addButtons() {
+    addMarker() {
         this.stages.forEach((stage) => {
-            if(stage.name === this.stageName && typeof stage.buttons !== 'undefined') {
-                this.buttons = []
-                stage.buttons.forEach((button) => {
-                    const id = new Button({
-                        scene: this.scene,
-                        type: button.type,
-                        linkTo: button.linkTo,
-                        buttonName: button.name,
-                        radius: button.radius,
-                        x: button.x,
-                        y: button.y,
-                        z: button.z,
-                        datGUI: button.datGUI
+            if(stage.name === this.stageName && typeof stage.markers !== 'undefined') {
+                this.markers = []
+                stage.markers.forEach((marker) => {
+                    const id = new Marker({
+                        type: marker.type,
+                        name: marker.name,
+                        linkTo: marker.linkTo,
+                        x: marker.x,
+                        y: marker.y,
+                        z: marker.z,
+                        scale: marker.scale,
+                        datGUI: marker.datGUI
                     })
                     id.init()
-                    this.buttons.push(id)
-                })               
+                    this.markers.push(id)
+                })
             }
         })
     }
@@ -103,8 +104,8 @@ class Stage {
     init() {
         this.canvas.create()
         this.createStage()
-        this.addButtons()
         this.addAudio()
+        this.addMarker()
     }
 }
 
